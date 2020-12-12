@@ -12,12 +12,7 @@ type healthController struct {
 
 func (c *healthController) Handler(httpRequest *shared.HTTPRequest) *shared.HTTPResponse {
 
-	result, err := c.usecase.Health()
-	if err != nil {
-		return shared.HTTPInternalServerError(err.Error())
-	}
-
-	return result
+	return c.usecase.Health()
 }
 
 // NewHealthController ...

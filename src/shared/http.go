@@ -1,8 +1,10 @@
 package shared
 
+import "io"
+
 // HTTPRequest ....
 type HTTPRequest struct {
-	Body   interface{}
+	Body   io.Reader
 	Params map[string]string
 }
 
@@ -36,8 +38,8 @@ func HTTPNoContent() *HTTPResponse {
 }
 
 type httpErrorBody struct {
-	statusCode int
-	message    string
+	StatusCode int    `json:"statusCode"`
+	Message    string `json:"message"`
 }
 
 // HTTPBadRequest ...
@@ -45,8 +47,8 @@ func HTTPBadRequest(message string) *HTTPResponse {
 	return &HTTPResponse{
 		StatusCode: 400,
 		Body: httpErrorBody{
-			statusCode: 400,
-			message:    message,
+			StatusCode: 400,
+			Message:    message,
 		},
 	}
 }
@@ -56,8 +58,8 @@ func HTTPUnauthorized(message string) *HTTPResponse {
 	return &HTTPResponse{
 		StatusCode: 401,
 		Body: httpErrorBody{
-			statusCode: 401,
-			message:    message,
+			StatusCode: 401,
+			Message:    message,
 		},
 	}
 }
@@ -67,8 +69,8 @@ func HTTPForbbiden(message string) *HTTPResponse {
 	return &HTTPResponse{
 		StatusCode: 403,
 		Body: httpErrorBody{
-			statusCode: 403,
-			message:    message,
+			StatusCode: 403,
+			Message:    message,
 		},
 	}
 }
@@ -78,8 +80,8 @@ func HTTPInternalServerError(message string) *HTTPResponse {
 	return &HTTPResponse{
 		StatusCode: 500,
 		Body: httpErrorBody{
-			statusCode: 500,
-			message:    message,
+			StatusCode: 500,
+			Message:    message,
 		},
 	}
 }

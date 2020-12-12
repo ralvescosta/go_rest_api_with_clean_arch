@@ -25,5 +25,9 @@ func main() {
 	healthController := controllers.NewHealthController(healthUsecase)
 	httpServer.RegisterRouteHandler("/", adapters.RouteAdapt(healthController), "GET")
 
+	createBookUsecase := &applications.CreateBookUsecase{}
+	createBookController := controllers.NewCreatBookController(createBookUsecase)
+	httpServer.RegisterRouteHandler("/books", adapters.RouteAdapt(createBookController), "POST")
+
 	httpServer.StartHTTPServer()
 }

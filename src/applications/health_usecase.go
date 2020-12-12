@@ -11,11 +11,11 @@ type HealthUsecase struct {
 }
 
 // Health ...
-func (u *HealthUsecase) Health() (*shared.HTTPResponse, error) {
+func (u *HealthUsecase) Health() *shared.HTTPResponse {
 	var response = make(map[string]interface{})
 
 	response["startup"] = u.StartupTime
 	response["now"] = time.Now()
 
-	return shared.HTTPSuccess(response), nil
+	return shared.HTTPSuccess(response)
 }

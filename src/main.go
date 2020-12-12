@@ -6,6 +6,7 @@ import (
 	applications "restapi/applications"
 	frameworks "restapi/frameworks"
 	adapters "restapi/frameworks/adapters"
+	database "restapi/frameworks/database"
 	controllers "restapi/interfaces"
 )
 
@@ -15,7 +16,12 @@ func main() {
 	httpServer := frameworks.HTTPServer{}
 	httpServer.Init()
 
-	healthUsecase := applications.NewHealthUsecase(startup)
+	_, err := database.DbConnection()
+	if err != nil {
+		panic(err)
+	}
+
+	healthUsecase := &applications.HealthUsecase{StartupTime: startup}
 	healthController := controllers.NewHealthController(healthUsecase)
 	httpServer.RegisterRouteHandler("/", adapters.RouteAdapt(healthController), "GET")
 

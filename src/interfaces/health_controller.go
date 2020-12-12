@@ -7,7 +7,7 @@ import (
 )
 
 type healthController struct {
-	usecase applications.IHealthUsecase
+	usecase *applications.HealthUsecase
 }
 
 func (c *healthController) Handler(httpRequest *shared.HTTPRequest) *shared.HTTPResponse {
@@ -21,6 +21,6 @@ func (c *healthController) Handler(httpRequest *shared.HTTPRequest) *shared.HTTP
 }
 
 // NewHealthController ...
-func NewHealthController(usecase applications.IHealthUsecase) shared.IController {
+func NewHealthController(usecase *applications.HealthUsecase) shared.IController {
 	return &healthController{usecase: usecase}
 }

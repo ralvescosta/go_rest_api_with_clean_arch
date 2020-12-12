@@ -1,9 +1,9 @@
 package interfaces
 
 import (
-	"restapi/shared"
+	"restapi/src/shared"
 
-	applications "restapi/applications"
+	applications "restapi/src/applications"
 )
 
 type healthController struct {

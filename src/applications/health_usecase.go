@@ -1,7 +1,7 @@
 package applications
 
 import (
-	"restapi/shared"
+	"restapi/src/shared"
 	"time"
 )
 

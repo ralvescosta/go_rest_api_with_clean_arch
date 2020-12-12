@@ -1,11 +1,11 @@
 run-dev:
-	go run ./src/*.go
+	go run main.go
 
-test:
-	go test ./src/...
+tests:
+	go test ./... -v
 
 test-cov:
-	go test ./src/... -cover -v -coverprofile=c.out && go tool cover -html=c.out -o coverage.html
+	go test ./... -cover -v -coverprofile=c.out && go tool cover -html=c.out -o coverage.html
 
 build:
-	go build ./src/*.go
+	go build main.go

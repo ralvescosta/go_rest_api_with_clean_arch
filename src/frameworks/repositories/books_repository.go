@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"database/sql"
-	"restapi/entities"
+	"restapi/src/entities"
 )
 
 // BooksRepository ...

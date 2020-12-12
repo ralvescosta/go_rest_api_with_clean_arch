@@ -2,8 +2,8 @@ package applications
 
 import (
 	"fmt"
-	"restapi/entities"
-	"restapi/shared"
+	"restapi/src/entities"
+	"restapi/src/shared"
 	"time"
 )
 

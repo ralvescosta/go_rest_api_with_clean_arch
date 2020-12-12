@@ -2,9 +2,9 @@ package interfaces
 
 import (
 	"encoding/json"
-	"restapi/applications"
-	"restapi/entities"
-	"restapi/shared"
+	"restapi/src/applications"
+	"restapi/src/entities"
+	"restapi/src/shared"
 )
 
 type createBookController struct {

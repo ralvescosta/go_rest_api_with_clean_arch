@@ -3,11 +3,11 @@ package main
 import (
 	"time"
 
-	applications "restapi/applications"
-	frameworks "restapi/frameworks"
-	adapters "restapi/frameworks/adapters"
-	database "restapi/frameworks/database"
-	controllers "restapi/interfaces"
+	applications "restapi/src/applications"
+	frameworks "restapi/src/frameworks"
+	adapters "restapi/src/frameworks/adapters"
+	database "restapi/src/frameworks/database"
+	controllers "restapi/src/interfaces"
 )
 
 func main() {

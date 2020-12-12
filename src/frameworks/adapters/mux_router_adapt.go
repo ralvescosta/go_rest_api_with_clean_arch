@@ -1,7 +1,7 @@
 package adapters
 
 import (
-	shared "restapi/shared"
+	shared "restapi/src/shared"
 
 	"encoding/json"
 	"net/http"

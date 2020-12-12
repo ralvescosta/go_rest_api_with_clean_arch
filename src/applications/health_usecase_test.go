@@ -1,14 +1,13 @@
-package test
+package applications
 
 import (
-	"restapi/applications"
 	"testing"
 	"time"
 )
 
 func TestHealthUsecase(t *testing.T) {
 	startupMocked := time.Now()
-	healthUsecase := applications.HealthUsecase{StartupTime: startupMocked}
+	healthUsecase := HealthUsecase{StartupTime: startupMocked}
 
 	httpResponse := healthUsecase.Health()
 	body := httpResponse.Body.(map[string]interface{})

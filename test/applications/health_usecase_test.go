@@ -8,9 +8,9 @@ import (
 
 func TestHealthUsecase(t *testing.T) {
 	startupMocked := time.Now()
-	healthUsecase := applications.NewHealthUsecase(startupMocked)
+	healthUsecase := applications.HealthUsecase{StartupTime: startupMocked}
 
-	httpResponse, _ := healthUsecase.Health()
+	httpResponse := healthUsecase.Health()
 	body := httpResponse.Body.(map[string]interface{})
 
 	if httpResponse.StatusCode != 200 && body["startup"] != startupMocked {

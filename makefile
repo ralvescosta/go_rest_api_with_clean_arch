@@ -1,3 +1,6 @@
+migrate:
+	go run src/frameworks/database/migration/main.go
+
 run-dev:
 	go run main.go
 

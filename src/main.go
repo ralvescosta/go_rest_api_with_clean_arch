@@ -4,6 +4,7 @@ import (
 	"time"
 
 	applications "restapi/applications"
+	frameworks "restapi/frameworks"
 	adapters "restapi/frameworks/adapters"
 	controllers "restapi/interfaces"
 )
@@ -11,7 +12,7 @@ import (
 func main() {
 	startup := time.Now()
 
-	httpServer := HTTPServer{}
+	httpServer := frameworks.HTTPServer{}
 	httpServer.Init()
 
 	healthUsecase := applications.NewHealthUsecase(startup)

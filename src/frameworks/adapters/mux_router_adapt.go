@@ -18,7 +18,6 @@ func RouteAdapt(controller shared.IController) func(res http.ResponseWriter, req
 			Body:   req.Body,
 			Params: vars,
 		}
-
 		result := controller.Handler(httpRequest)
 
 		res.WriteHeader(result.StatusCode)

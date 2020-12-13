@@ -7,26 +7,23 @@ import (
 
 // BooksRepository ...
 type BooksRepository struct {
-	db *sql.DB
+	Db *sql.DB
 }
 
 // Create ...
-func (repo *BooksRepository) Create(book *entities.BookEntity) (*entities.BookEntity, error) {
-	sql := "INSERT INTO books (title, author, publishing_company, edition, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?) RETURNING *"
+func (repo *BooksRepository) Create(entity *entities.BookEntity) (*entities.BookEntity, error) {
+	sql := "INSERT INTO books (title, author, publishing_company, edition) VALUES ($1, $2, $3, $4) RETURNING *"
 
-	prepare, err := repo.db.Prepare(sql)
+	prepare, err := repo.Db.Prepare(sql)
 	if err != nil {
 		return nil, err
 	}
 
-	entity := &entities.BookEntity{}
 	err = prepare.QueryRow(
-		book.Title,
-		book.Author,
-		book.PublishingCompany,
-		book.Edition,
-		book.CreatedAt,
-		book.UpdatedAt,
+		entity.Title,
+		entity.Author,
+		entity.PublishingCompany,
+		entity.Edition,
 	).Scan(
 		&entity.ID,
 		&entity.Title,
@@ -35,6 +32,7 @@ func (repo *BooksRepository) Create(book *entities.BookEntity) (*entities.BookEn
 		&entity.Edition,
 		&entity.CreatedAt,
 		&entity.UpdatedAt,
+		&entity.DeletedAt,
 	)
 	if err != nil {
 		return nil, err

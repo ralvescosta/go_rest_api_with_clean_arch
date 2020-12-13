@@ -2,31 +2,29 @@ package repositories
 
 import (
 	"database/sql"
-	"restapi/entities"
+	"restapi/src/applications/protocols"
+	"restapi/src/entities"
 )
 
-// BooksRepository ...
-type BooksRepository struct {
+// booksRepository ...
+type booksRepository struct {
 	db *sql.DB
 }
 
 // Create ...
-func (repo *BooksRepository) Create(book *entities.BookEntity) (*entities.BookEntity, error) {
-	sql := "INSERT INTO books (title, author, publishing_company, edition, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?) RETURNING *"
+func (repo *booksRepository) Create(entity *entities.BookEntity) (*entities.BookEntity, error) {
+	sql := "INSERT INTO books (title, author, publishing_company, edition) VALUES ($1, $2, $3, $4) RETURNING *"
 
 	prepare, err := repo.db.Prepare(sql)
 	if err != nil {
 		return nil, err
 	}
 
-	entity := &entities.BookEntity{}
 	err = prepare.QueryRow(
-		book.Title,
-		book.Author,
-		book.PublishingCompany,
-		book.Edition,
-		book.CreatedAt,
-		book.UpdatedAt,
+		entity.Title,
+		entity.Author,
+		entity.PublishingCompany,
+		entity.Edition,
 	).Scan(
 		&entity.ID,
 		&entity.Title,
@@ -35,6 +33,7 @@ func (repo *BooksRepository) Create(book *entities.BookEntity) (*entities.BookEn
 		&entity.Edition,
 		&entity.CreatedAt,
 		&entity.UpdatedAt,
+		&entity.DeletedAt,
 	)
 	if err != nil {
 		return nil, err
@@ -179,3 +178,8 @@ func (repo *BooksRepository) Create(book *entities.BookEntity) (*entities.BookEn
 
 // 	return nil, nil
 // }
+
+// NewBooksRepository ...
+func NewBooksRepository(dbConnection *sql.DB) protocols.IBooksRepository {
+	return &booksRepository{db: dbConnection}
+}

@@ -1,12 +1,8 @@
 package shared
 
-import "io"
-
-// HTTPRequest ....
-type HTTPRequest struct {
-	Body   io.Reader
-	Params map[string]string
-}
+import (
+	"net/http"
+)
 
 // HTTPResponse ....
 type HTTPResponse struct {
@@ -18,7 +14,7 @@ type HTTPResponse struct {
 // HTTPSuccess ...
 func HTTPSuccess(body interface{}) *HTTPResponse {
 	return &HTTPResponse{
-		StatusCode: 200,
+		StatusCode: http.StatusOK,
 		Body:       body,
 	}
 }
@@ -26,18 +22,19 @@ func HTTPSuccess(body interface{}) *HTTPResponse {
 // HTTPCreated ...
 func HTTPCreated() *HTTPResponse {
 	return &HTTPResponse{
-		StatusCode: 201,
+		StatusCode: http.StatusCreated,
 	}
 }
 
 // HTTPNoContent ...
 func HTTPNoContent() *HTTPResponse {
 	return &HTTPResponse{
-		StatusCode: 204,
+		StatusCode: http.StatusNoContent,
 	}
 }
 
-type httpErrorBody struct {
+// HTTPErrorMessage ...
+type HTTPErrorMessage struct {
 	StatusCode int    `json:"statusCode"`
 	Message    string `json:"message"`
 }
@@ -45,9 +42,9 @@ type httpErrorBody struct {
 // HTTPBadRequest ...
 func HTTPBadRequest(message string) *HTTPResponse {
 	return &HTTPResponse{
-		StatusCode: 400,
-		Body: httpErrorBody{
-			StatusCode: 400,
+		StatusCode: http.StatusBadRequest,
+		Body: HTTPErrorMessage{
+			StatusCode: http.StatusBadRequest,
 			Message:    message,
 		},
 	}
@@ -56,9 +53,9 @@ func HTTPBadRequest(message string) *HTTPResponse {
 // HTTPUnauthorized ...
 func HTTPUnauthorized(message string) *HTTPResponse {
 	return &HTTPResponse{
-		StatusCode: 401,
-		Body: httpErrorBody{
-			StatusCode: 401,
+		StatusCode: http.StatusUnauthorized,
+		Body: HTTPErrorMessage{
+			StatusCode: http.StatusUnauthorized,
 			Message:    message,
 		},
 	}
@@ -67,9 +64,9 @@ func HTTPUnauthorized(message string) *HTTPResponse {
 // HTTPForbbiden ...
 func HTTPForbbiden(message string) *HTTPResponse {
 	return &HTTPResponse{
-		StatusCode: 403,
-		Body: httpErrorBody{
-			StatusCode: 403,
+		StatusCode: http.StatusForbidden,
+		Body: HTTPErrorMessage{
+			StatusCode: http.StatusForbidden,
 			Message:    message,
 		},
 	}
@@ -78,9 +75,9 @@ func HTTPForbbiden(message string) *HTTPResponse {
 // HTTPInternalServerError ...
 func HTTPInternalServerError(message string) *HTTPResponse {
 	return &HTTPResponse{
-		StatusCode: 500,
-		Body: httpErrorBody{
-			StatusCode: 500,
+		StatusCode: http.StatusInternalServerError,
+		Body: HTTPErrorMessage{
+			StatusCode: http.StatusInternalServerError,
 			Message:    message,
 		},
 	}

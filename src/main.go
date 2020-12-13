@@ -3,11 +3,11 @@ package main
 import (
 	"time"
 
-	applications "restapi/applications"
-	frameworks "restapi/frameworks"
-	adapters "restapi/frameworks/adapters"
-	database "restapi/frameworks/database"
-	controllers "restapi/interfaces"
+	applications "restapi/src/applications"
+	frameworks "restapi/src/frameworks"
+	database "restapi/src/frameworks/database"
+	repositories "restapi/src/frameworks/repositories"
+	controllers "restapi/src/interfaces"
 )
 
 func main() {
@@ -16,18 +16,19 @@ func main() {
 	httpServer := frameworks.HTTPServer{}
 	httpServer.Init()
 
-	_, err := database.DbConnection()
+	DbCon, err := database.DbConnection()
 	if err != nil {
 		panic(err)
 	}
 
 	healthUsecase := &applications.HealthUsecase{StartupTime: startup}
-	healthController := controllers.NewHealthController(healthUsecase)
-	httpServer.RegisterRouteHandler("/", adapters.RouteAdapt(healthController), "GET")
+	healthController := controllers.HealthController{Usecase: healthUsecase}
+	httpServer.RegisterRouteHandler("/", healthController.Handler, "GET")
 
-	createBookUsecase := &applications.CreateBookUsecase{}
-	createBookController := controllers.NewCreatBookController(createBookUsecase)
-	httpServer.RegisterRouteHandler("/books", adapters.RouteAdapt(createBookController), "POST")
+	booksRepository := repositories.NewBooksRepository(DbCon)
+	createBookUsecase := &applications.CreateBookUsecase{BooksRepository: booksRepository}
+	createBookController := controllers.CreateBookController{Usecase: createBookUsecase}
+	httpServer.RegisterRouteHandler("/books", createBookController.Handler, "POST")
 
 	httpServer.StartHTTPServer()
 }

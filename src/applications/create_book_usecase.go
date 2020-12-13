@@ -1,11 +1,32 @@
 package applications
 
-import "restapi/shared"
+import (
+	"restapi/src/applications/protocols"
+	"restapi/src/entities"
+	"restapi/src/shared"
+	"time"
+)
 
 // CreateBookUsecase ...
-type CreateBookUsecase struct{}
+type CreateBookUsecase struct {
+	BooksRepository protocols.IBooksRepository
+}
 
 // Create ...
-func (*CreateBookUsecase) Create(body interface{}) *shared.HTTPResponse {
+func (u *CreateBookUsecase) Create(bookDTO *entities.BookDTO) *shared.HTTPResponse {
+
+	entity := &entities.BookEntity{
+		Title:     bookDTO.Title,
+		Author:    bookDTO.Author,
+		Edition:   bookDTO.Edition,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	_, err := u.BooksRepository.Create(entity)
+	if err != nil {
+		return shared.HTTPInternalServerError("Internal Server Error")
+	}
+
 	return shared.HTTPCreated()
 }

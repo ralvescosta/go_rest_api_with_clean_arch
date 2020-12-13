@@ -1,21 +1,22 @@
 package interfaces
 
 import (
-	"restapi/src/shared"
-
+	"encoding/json"
+	"net/http"
 	applications "restapi/src/applications"
 )
 
-type healthController struct {
-	usecase *applications.HealthUsecase
+// HealthController ...
+type HealthController struct {
+	Usecase *applications.HealthUsecase
 }
 
-func (c *healthController) Handler(httpRequest *shared.HTTPRequest) *shared.HTTPResponse {
+// Handler ...
+func (c *HealthController) Handler(res http.ResponseWriter, req *http.Request) {
 
-	return c.usecase.Health()
-}
+	result := c.Usecase.Health()
 
-// NewHealthController ...
-func NewHealthController(usecase *applications.HealthUsecase) shared.IController {
-	return &healthController{usecase: usecase}
+	res.WriteHeader(result.StatusCode)
+	json.NewEncoder(res).Encode(result.Body)
+
 }

@@ -2,19 +2,20 @@ package repositories
 
 import (
 	"database/sql"
+	"restapi/src/applications/protocols"
 	"restapi/src/entities"
 )
 
-// BooksRepository ...
-type BooksRepository struct {
-	Db *sql.DB
+// booksRepository ...
+type booksRepository struct {
+	db *sql.DB
 }
 
 // Create ...
-func (repo *BooksRepository) Create(entity *entities.BookEntity) (*entities.BookEntity, error) {
+func (repo *booksRepository) Create(entity *entities.BookEntity) (*entities.BookEntity, error) {
 	sql := "INSERT INTO books (title, author, publishing_company, edition) VALUES ($1, $2, $3, $4) RETURNING *"
 
-	prepare, err := repo.Db.Prepare(sql)
+	prepare, err := repo.db.Prepare(sql)
 	if err != nil {
 		return nil, err
 	}
@@ -177,3 +178,8 @@ func (repo *BooksRepository) Create(entity *entities.BookEntity) (*entities.Book
 
 // 	return nil, nil
 // }
+
+// NewBooksRepository ...
+func NewBooksRepository(dbConnection *sql.DB) protocols.IBooksRepository {
+	return &booksRepository{db: dbConnection}
+}

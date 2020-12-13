@@ -2,27 +2,33 @@ package interfaces
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"restapi/src/applications"
 	"restapi/src/entities"
 	"restapi/src/shared"
 )
 
-type createBookController struct {
-	usecase *applications.CreateBookUsecase
+// CreateBookController ...
+type CreateBookController struct {
+	Usecase *applications.CreateBookUsecase
 }
 
-func (c *createBookController) Handler(httpRequest *shared.HTTPRequest) *shared.HTTPResponse {
+// Handler ...
+func (c *CreateBookController) Handler(res http.ResponseWriter, req *http.Request) {
 	body := &entities.BookDTO{}
-	err := json.NewDecoder(httpRequest.Body).Decode(body)
+	err := json.NewDecoder(req.Body).Decode(body)
 
 	if err != nil {
-		return shared.HTTPBadRequest("Body Wrong Format")
+		response := shared.HTTPBadRequest("Wrong Format")
+		res.WriteHeader(response.StatusCode)
+		json.NewEncoder(res).Encode(response.Body)
 	}
 
-	return c.usecase.Create(body)
-}
+	result := c.Usecase.Create(body)
 
-// NewCreatBookController ...
-func NewCreatBookController(usecase *applications.CreateBookUsecase) shared.IController {
-	return &createBookController{usecase: usecase}
+	res.WriteHeader(result.StatusCode)
+	if result.Body != nil {
+		json.NewEncoder(res).Encode(result.Body)
+	}
 }

@@ -1,20 +1,17 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+
 	"restapi/src/frameworks/database"
 )
 
-func main() {
-	dbConn, err := database.DbConnection()
-	if err != nil {
-		panic(err)
-	}
-	defer dbConn.Close()
+func createBookTable(dbConn *sql.DB) error {
+	fmt.Println("\n****************************************")
+	fmt.Println("1607860952225 - Create Book Table")
 
-	fmt.Println("Running migrations....")
-
-	_, err = dbConn.Exec(`
+	_, err := dbConn.Exec(`
 		CREATE TABLE books
 		(
 			id SERIAL NOT NULL PRIMARY KEY,
@@ -28,8 +25,31 @@ func main() {
 		);
 	`)
 
+	return err
+}
+
+func main() {
+	dbConn, err := database.DbConnection()
 	if err != nil {
 		panic(err)
+	}
+	defer dbConn.Close()
+
+	fmt.Println("Running migrations....")
+
+	err = createBookTable(dbConn)
+	if err != nil {
+		if err.Error() == "pq: relation \"books\" already exists" {
+			fmt.Println("Book Table already exist")
+			fmt.Println("****************************************")
+			fmt.Println()
+		} else {
+			panic(err)
+		}
+	} else {
+		fmt.Println("Book was Table created")
+		fmt.Println("****************************************")
+		fmt.Println()
 	}
 
 	fmt.Println("Migration run successfully")

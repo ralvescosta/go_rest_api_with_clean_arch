@@ -49,7 +49,7 @@ func TestCreateBookUsecaseWhenSuccessfully(t *testing.T) {
 	})
 
 	if result.StatusCode != 201 {
-		t.Errorf("Should return status code %d, when is spected to be 201", result.StatusCode)
+		t.Errorf("Should return status code 201 but received %d", result.StatusCode)
 	}
 }
 
@@ -65,7 +65,7 @@ func TestCreateBookUsecaseConflictErr(t *testing.T) {
 	})
 
 	if result.StatusCode != 409 {
-		t.Errorf("Should return status code %d, when is spected to be 409", result.StatusCode)
+		t.Errorf("Should return status code 409 but received %d", result.StatusCode)
 	}
 }
 
@@ -81,7 +81,7 @@ func TestCreateBookUsecaseErrorOnFindByTitle(t *testing.T) {
 	})
 
 	if result.StatusCode != 500 {
-		t.Errorf("Should return status code %d, when is spected to be 500", result.StatusCode)
+		t.Errorf("Should return status code 500 but received %d", result.StatusCode)
 	}
 }
 
@@ -97,6 +97,6 @@ func TestCreateBookUsecaseErrorOnCreate(t *testing.T) {
 	})
 
 	if result.StatusCode != 500 {
-		t.Errorf("Should return status code %d, when is spected to be 500", result.StatusCode)
+		t.Errorf("Should return status code 500 but received %d", result.StatusCode)
 	}
 }

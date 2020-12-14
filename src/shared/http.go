@@ -72,6 +72,17 @@ func HTTPForbbiden(message string) *HTTPResponse {
 	}
 }
 
+// HTTPConflict ...
+func HTTPConflict(message string) *HTTPResponse {
+	return &HTTPResponse{
+		StatusCode: http.StatusConflict,
+		Body: HTTPErrorMessage{
+			StatusCode: http.StatusConflict,
+			Message:    message,
+		},
+	}
+}
+
 // HTTPInternalServerError ...
 func HTTPInternalServerError(message string) *HTTPResponse {
 	return &HTTPResponse{

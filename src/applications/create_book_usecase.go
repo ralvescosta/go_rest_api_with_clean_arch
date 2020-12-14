@@ -15,15 +15,24 @@ type CreateBookUsecase struct {
 // Create ...
 func (u *CreateBookUsecase) Create(bookDTO *entities.BookDTO) *shared.HTTPResponse {
 
-	entity := &entities.BookEntity{
-		Title:     bookDTO.Title,
-		Author:    bookDTO.Author,
-		Edition:   bookDTO.Edition,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+	entity, err := u.BooksRepository.FindByTitle(bookDTO.Title)
+	if err != nil {
+		return shared.HTTPInternalServerError("Internal Server Error")
+	}
+	if entity != nil {
+		return shared.HTTPConflict("Book title already registered")
 	}
 
-	_, err := u.BooksRepository.Create(entity)
+	entity = &entities.BookEntity{
+		Title:             bookDTO.Title,
+		Author:            bookDTO.Author,
+		Edition:           bookDTO.Edition,
+		PublishingCompany: bookDTO.PublishingCompany,
+		CreatedAt:         time.Now(),
+		UpdatedAt:         time.Now(),
+	}
+
+	_, err = u.BooksRepository.Create(entity)
 	if err != nil {
 		return shared.HTTPInternalServerError("Internal Server Error")
 	}

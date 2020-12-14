@@ -42,32 +42,62 @@ func (repo *booksRepository) Create(entity *entities.BookEntity) (*entities.Book
 	return entity, nil
 }
 
-// // FindByID ...
-// func (b *booksRepository) FindByID(id uint64) (*entities.BookEntity, error) {
-// 	sql := "SELECT id, title, author, publishing_company, edition, created_at, updated_at, deleted_at FROM books WHERE id = ?"
+// FindByTitle ...
+func (b *booksRepository) FindByTitle(title string) (*entities.BookEntity, error) {
+	sql := "SELECT id, title, author, publishing_company, edition, created_at, updated_at, deleted_at FROM books WHERE title = $1"
 
-// 	prepare, err := b.db.Prepare(sql)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	entity := &entities.BookEntity{}
-// 	err = prepare.QueryRow(id).Scan(
-// 		&entity.ID,
-// 		&entity.Title,
-// 		&entity.Author,
-// 		&entity.PublishingCompany,
-// 		&entity.Edition,
-// 		&entity.CreatedAt,
-// 		&entity.UpdatedAt,
-// 		&entity.DeletedAt,
-// 	)
+	prepare, err := b.db.Prepare(sql)
+	if err != nil {
+		return nil, err
+	}
+	entity := &entities.BookEntity{}
+	err = prepare.QueryRow(title).Scan(
+		&entity.ID,
+		&entity.Title,
+		&entity.Author,
+		&entity.PublishingCompany,
+		&entity.Edition,
+		&entity.CreatedAt,
+		&entity.UpdatedAt,
+		&entity.DeletedAt,
+	)
 
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	if err != nil {
+		if err.Error() == "sql: no rows in result set" {
+			return nil, nil
+		}
+		return nil, err
+	}
 
-// 	return entity, nil
-// }
+	return entity, nil
+}
+
+// FindByID ...
+func (b *booksRepository) FindByID(id uint64) (*entities.BookEntity, error) {
+	sql := "SELECT id, title, author, publishing_company, edition, created_at, updated_at, deleted_at FROM books WHERE id = ?"
+
+	prepare, err := b.db.Prepare(sql)
+	if err != nil {
+		return nil, err
+	}
+	entity := &entities.BookEntity{}
+	err = prepare.QueryRow(id).Scan(
+		&entity.ID,
+		&entity.Title,
+		&entity.Author,
+		&entity.PublishingCompany,
+		&entity.Edition,
+		&entity.CreatedAt,
+		&entity.UpdatedAt,
+		&entity.DeletedAt,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return entity, nil
+}
 
 // // FindAll ...
 // func (b *booksRepository) FindAll() (*[]entities.BookEntity, error) {

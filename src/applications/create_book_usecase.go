@@ -7,15 +7,19 @@ import (
 	"time"
 )
 
-// CreateBookUsecase ...
-type CreateBookUsecase struct {
-	BooksRepository protocols.IBooksRepository
+// ICreateBookUsecase ...
+type ICreateBookUsecase interface {
+	Create(bookDTO *entities.BookDTO) *shared.HTTPResponse
+}
+
+type createBookUsecase struct {
+	repository protocols.IBooksRepository
 }
 
 // Create ...
-func (u *CreateBookUsecase) Create(bookDTO *entities.BookDTO) *shared.HTTPResponse {
+func (u *createBookUsecase) Create(bookDTO *entities.BookDTO) *shared.HTTPResponse {
 
-	entity, err := u.BooksRepository.FindByTitle(bookDTO.Title)
+	entity, err := u.repository.FindByTitle(bookDTO.Title)
 	if err != nil {
 		return shared.HTTPInternalServerError("Internal Server Error")
 	}
@@ -32,10 +36,15 @@ func (u *CreateBookUsecase) Create(bookDTO *entities.BookDTO) *shared.HTTPRespon
 		UpdatedAt:         time.Now(),
 	}
 
-	_, err = u.BooksRepository.Create(entity)
+	_, err = u.repository.Create(entity)
 	if err != nil {
 		return shared.HTTPInternalServerError("Internal Server Error")
 	}
 
 	return shared.HTTPCreated()
+}
+
+// NewCreateBookUsecase ...
+func NewCreateBookUsecase(repository protocols.IBooksRepository) ICreateBookUsecase {
+	return &createBookUsecase{repository: repository}
 }

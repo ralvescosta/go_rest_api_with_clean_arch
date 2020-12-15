@@ -39,7 +39,7 @@ func NewInMemoryRepository(returnCreate returnCreate, returnFindByTitle returnFi
 }
 
 func TestCreateBookUsecaseWhenSuccessfully(t *testing.T) {
-	sut := CreateBookUsecase{BooksRepository: NewInMemoryRepository(returnCreate{}, returnFindByTitle{}, returnFindByID{})}
+	sut := NewCreateBookUsecase(NewInMemoryRepository(returnCreate{}, returnFindByTitle{}, returnFindByID{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",
@@ -49,13 +49,13 @@ func TestCreateBookUsecaseWhenSuccessfully(t *testing.T) {
 	})
 
 	if result.StatusCode != 201 {
-		t.Errorf("Should return status code %d, when is spected to be 201", result.StatusCode)
+		t.Errorf("Should return status code 201 but received %d", result.StatusCode)
 	}
 }
 
 func TestCreateBookUsecaseConflictErr(t *testing.T) {
 
-	sut := CreateBookUsecase{BooksRepository: NewInMemoryRepository(returnCreate{}, returnFindByTitle{entity: &entities.BookEntity{}}, returnFindByID{})}
+	sut := NewCreateBookUsecase(NewInMemoryRepository(returnCreate{}, returnFindByTitle{entity: &entities.BookEntity{}}, returnFindByID{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",
@@ -65,13 +65,13 @@ func TestCreateBookUsecaseConflictErr(t *testing.T) {
 	})
 
 	if result.StatusCode != 409 {
-		t.Errorf("Should return status code %d, when is spected to be 409", result.StatusCode)
+		t.Errorf("Should return status code 409 but received %d", result.StatusCode)
 	}
 }
 
 func TestCreateBookUsecaseErrorOnFindByTitle(t *testing.T) {
 
-	sut := CreateBookUsecase{BooksRepository: NewInMemoryRepository(returnCreate{}, returnFindByTitle{err: errors.New("")}, returnFindByID{})}
+	sut := NewCreateBookUsecase(NewInMemoryRepository(returnCreate{}, returnFindByTitle{err: errors.New("")}, returnFindByID{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",
@@ -81,13 +81,13 @@ func TestCreateBookUsecaseErrorOnFindByTitle(t *testing.T) {
 	})
 
 	if result.StatusCode != 500 {
-		t.Errorf("Should return status code %d, when is spected to be 500", result.StatusCode)
+		t.Errorf("Should return status code 500 but received %d", result.StatusCode)
 	}
 }
 
 func TestCreateBookUsecaseErrorOnCreate(t *testing.T) {
 
-	sut := CreateBookUsecase{BooksRepository: NewInMemoryRepository(returnCreate{err: errors.New("")}, returnFindByTitle{}, returnFindByID{})}
+	sut := NewCreateBookUsecase(NewInMemoryRepository(returnCreate{err: errors.New("")}, returnFindByTitle{}, returnFindByID{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",
@@ -97,6 +97,6 @@ func TestCreateBookUsecaseErrorOnCreate(t *testing.T) {
 	})
 
 	if result.StatusCode != 500 {
-		t.Errorf("Should return status code %d, when is spected to be 500", result.StatusCode)
+		t.Errorf("Should return status code 500 but received %d", result.StatusCode)
 	}
 }

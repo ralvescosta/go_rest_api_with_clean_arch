@@ -1,11 +1,11 @@
 package interfaces
 
 import (
-	"fmt"
 	"net/http/httptest"
 	"restapi/src/applications"
 	"restapi/src/entities"
 	"restapi/src/shared"
+	"strings"
 	"testing"
 )
 
@@ -19,15 +19,22 @@ func NewCreateBookUsecaseMock() applications.ICreateBookUsecase {
 }
 
 func TestCreateBookControllerSuccessfully(t *testing.T) {
-	req := httptest.NewRequest("POST", "http://example.com/foo", nil)
+
+	req := httptest.NewRequest("POST", "http://example.com/foo",
+		strings.NewReader(`{
+			"title": "title",
+			"author": "author",
+			"publishingCompany": "publishingCompany",
+			"edition": 1
+	}`))
 	res := httptest.NewRecorder()
 
 	controller := CreateBookController{Usecase: NewCreateBookUsecaseMock()}
 	controller.Handler(res, req)
 
 	result := res.Result()
-	fmt.Println(result.StatusCode)
+
 	if result.StatusCode != 201 {
-		t.Errorf("")
+		t.Errorf("Should return status code 201 but received %d", result.StatusCode)
 	}
 }

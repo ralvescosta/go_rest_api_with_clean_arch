@@ -11,7 +11,7 @@ import (
 
 // CreateBookController ...
 type CreateBookController struct {
-	Usecase *applications.CreateBookUsecase
+	Usecase applications.ICreateBookUsecase
 }
 
 // Handler ...

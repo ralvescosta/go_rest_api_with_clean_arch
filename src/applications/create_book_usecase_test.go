@@ -39,7 +39,7 @@ func NewInMemoryRepository(returnCreate returnCreate, returnFindByTitle returnFi
 }
 
 func TestCreateBookUsecaseWhenSuccessfully(t *testing.T) {
-	sut := CreateBookUsecase{BooksRepository: NewInMemoryRepository(returnCreate{}, returnFindByTitle{}, returnFindByID{})}
+	sut := NewCreateBookUsecase(NewInMemoryRepository(returnCreate{}, returnFindByTitle{}, returnFindByID{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",
@@ -55,7 +55,7 @@ func TestCreateBookUsecaseWhenSuccessfully(t *testing.T) {
 
 func TestCreateBookUsecaseConflictErr(t *testing.T) {
 
-	sut := CreateBookUsecase{BooksRepository: NewInMemoryRepository(returnCreate{}, returnFindByTitle{entity: &entities.BookEntity{}}, returnFindByID{})}
+	sut := NewCreateBookUsecase(NewInMemoryRepository(returnCreate{}, returnFindByTitle{entity: &entities.BookEntity{}}, returnFindByID{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",
@@ -71,7 +71,7 @@ func TestCreateBookUsecaseConflictErr(t *testing.T) {
 
 func TestCreateBookUsecaseErrorOnFindByTitle(t *testing.T) {
 
-	sut := CreateBookUsecase{BooksRepository: NewInMemoryRepository(returnCreate{}, returnFindByTitle{err: errors.New("")}, returnFindByID{})}
+	sut := NewCreateBookUsecase(NewInMemoryRepository(returnCreate{}, returnFindByTitle{err: errors.New("")}, returnFindByID{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",
@@ -87,7 +87,7 @@ func TestCreateBookUsecaseErrorOnFindByTitle(t *testing.T) {
 
 func TestCreateBookUsecaseErrorOnCreate(t *testing.T) {
 
-	sut := CreateBookUsecase{BooksRepository: NewInMemoryRepository(returnCreate{err: errors.New("")}, returnFindByTitle{}, returnFindByID{})}
+	sut := NewCreateBookUsecase(NewInMemoryRepository(returnCreate{err: errors.New("")}, returnFindByTitle{}, returnFindByID{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",

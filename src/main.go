@@ -26,7 +26,7 @@ func main() {
 	httpServer.RegisterRouteHandler("/", healthController.Handler, "GET")
 
 	booksRepository := repositories.NewBooksRepository(DbCon)
-	createBookUsecase := &applications.CreateBookUsecase{BooksRepository: booksRepository}
+	createBookUsecase := applications.NewCreateBookUsecase(booksRepository)
 	createBookController := controllers.CreateBookController{Usecase: createBookUsecase}
 	httpServer.RegisterRouteHandler("/books", createBookController.Handler, "POST")
 

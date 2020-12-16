@@ -2,7 +2,7 @@ package interfaces
 
 import (
 	"net/http/httptest"
-	application "restapi/src/applications/health"
+	"restapi/src/applications"
 	"restapi/src/shared"
 	"testing"
 )
@@ -12,7 +12,7 @@ type healthUsecaseMock struct{}
 func (healthUsecaseMock) Health() *shared.HTTPResponse {
 	return shared.HTTPSuccess("")
 }
-func NewHealthUsecaseMock() application.IHealthUsecase {
+func NewHealthUsecaseMock() applications.IHealthUsecase {
 	return &healthUsecaseMock{}
 }
 

@@ -99,39 +99,39 @@ func (b *booksRepository) FindByID(id uint64) (*entities.BookEntity, error) {
 	return entity, nil
 }
 
-// FindAll ...
-func (b *booksRepository) FindAll() ([]entities.BookEntity, error) {
-	sql := "SELECT id, title, author, publishing_company, edition, created_at, updated_at, deleted_at FROM books"
+// // FindAll ...
+// func (b *booksRepository) FindAll() (*[]entities.BookEntity, error) {
+// 	sql := "SELECT id, title, author, publishing_company, edition, created_at, updated_at, deleted_at FROM books"
 
-	entity := entities.BookEntity{}
-	entitySlice := []entities.BookEntity{}
+// 	entity := entities.BookEntity{}
+// 	entitySlice := []entities.BookEntity{}
 
-	rows, err := b.db.Query(sql)
+// 	rows, err := b.db.Query(sql)
 
-	for rows.Next() {
-		err = rows.Scan(
-			&entity.ID,
-			&entity.Title,
-			&entity.Author,
-			&entity.PublishingCompany,
-			&entity.Edition,
-			&entity.CreatedAt,
-			&entity.UpdatedAt,
-			&entity.DeletedAt,
-		)
-		entitySlice = append(entitySlice, entity)
+// 	for rows.Next() {
+// 		err = rows.Scan(
+// 			&entity.ID,
+// 			&entity.Title,
+// 			&entity.Author,
+// 			&entity.PublishingCompany,
+// 			&entity.Edition,
+// 			&entity.CreatedAt,
+// 			&entity.UpdatedAt,
+// 			&entity.DeletedAt,
+// 		)
+// 		entitySlice = append(entitySlice, entity)
 
-		if err != nil {
-			break
-		}
-	}
+// 		if err != nil {
+// 			break
+// 		}
+// 	}
 
-	if err != nil {
-		return nil, err
-	}
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	return entitySlice, nil
-}
+// 	return &entitySlice, nil
+// }
 
 // // Update ...
 // func (b *booksRepository) Update(id uint64, book *entities.InputCreateBook) (*entities.BookEntity, error) {

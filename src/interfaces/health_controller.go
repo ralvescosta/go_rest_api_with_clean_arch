@@ -3,12 +3,12 @@ package interfaces
 import (
 	"encoding/json"
 	"net/http"
-	application "restapi/src/applications/health"
+	applications "restapi/src/applications"
 )
 
 // HealthController ...
 type HealthController struct {
-	Usecase application.IHealthUsecase
+	Usecase applications.IHealthUsecase
 }
 
 // Handler ...

@@ -34,9 +34,6 @@ func (repo *inMemoryRepository) FindByTitle(title string) (*entities.BookEntity,
 func (repo *inMemoryRepository) FindByID(id uint64) (*entities.BookEntity, error) {
 	return repo.returnFindByID.entity, repo.returnFindByID.err
 }
-func (repo *inMemoryRepository) FindAll() ([]entities.BookEntity, error) {
-	return nil, nil
-}
 func NewInMemoryRepository(returnCreate returnCreate, returnFindByTitle returnFindByTitle, returnFindByID returnFindByID) protocols.IBooksRepository {
 	return &inMemoryRepository{returnCreate: returnCreate, returnFindByTitle: returnFindByTitle, returnFindByID: returnFindByID}
 }

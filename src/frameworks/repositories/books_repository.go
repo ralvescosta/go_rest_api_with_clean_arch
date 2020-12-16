@@ -74,7 +74,7 @@ func (b *booksRepository) FindByTitle(title string) (*entities.BookEntity, error
 
 // FindByID ...
 func (b *booksRepository) FindByID(id uint64) (*entities.BookEntity, error) {
-	sql := "SELECT id, title, author, publishing_company, edition, created_at, updated_at, deleted_at FROM books WHERE id = ?"
+	sql := "SELECT id, title, author, publishing_company, edition, created_at, updated_at, deleted_at FROM books WHERE id = $1"
 
 	prepare, err := b.db.Prepare(sql)
 	if err != nil {

@@ -3,7 +3,7 @@ package interfaces
 import (
 	"encoding/json"
 	"net/http"
-	applications "restapi/src/applications"
+	"restapi/src/applications"
 )
 
 // HealthController ...

@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetOneBookUsecaseSuccessfully(t *testing.T) {
-	sut := NewGetOneBookUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{}, mocks.ReturnFindByTitle{}, mocks.ReturnFindByID{Entity: &entities.BookEntity{}}, mocks.ReturnFindAll{}))
+	sut := NewGetOneBookUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{}, mocks.ReturnFindByTitle{}, mocks.ReturnFindByID{Entity: &entities.BookEntity{}}, mocks.ReturnFindAll{}, mocks.ReturnDelete{}))
 
 	result := sut.GetOne(1)
 

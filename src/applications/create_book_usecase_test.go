@@ -9,7 +9,7 @@ import (
 )
 
 func TestCreateBookUsecaseWhenSuccessfully(t *testing.T) {
-	sut := NewCreateBookUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{}, mocks.ReturnFindByTitle{}, mocks.ReturnFindByID{}, mocks.ReturnFindAll{}))
+	sut := NewCreateBookUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{}, mocks.ReturnFindByTitle{}, mocks.ReturnFindByID{}, mocks.ReturnFindAll{}, mocks.ReturnDelete{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",
@@ -25,7 +25,7 @@ func TestCreateBookUsecaseWhenSuccessfully(t *testing.T) {
 
 func TestCreateBookUsecaseConflictErr(t *testing.T) {
 
-	sut := NewCreateBookUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{}, mocks.ReturnFindByTitle{Entity: &entities.BookEntity{}}, mocks.ReturnFindByID{}, mocks.ReturnFindAll{}))
+	sut := NewCreateBookUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{}, mocks.ReturnFindByTitle{Entity: &entities.BookEntity{}}, mocks.ReturnFindByID{}, mocks.ReturnFindAll{}, mocks.ReturnDelete{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",
@@ -41,7 +41,7 @@ func TestCreateBookUsecaseConflictErr(t *testing.T) {
 
 func TestCreateBookUsecaseErrorOnFindByTitle(t *testing.T) {
 
-	sut := NewCreateBookUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{}, mocks.ReturnFindByTitle{Err: errors.New("")}, mocks.ReturnFindByID{}, mocks.ReturnFindAll{}))
+	sut := NewCreateBookUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{}, mocks.ReturnFindByTitle{Err: errors.New("")}, mocks.ReturnFindByID{}, mocks.ReturnFindAll{}, mocks.ReturnDelete{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",
@@ -57,7 +57,7 @@ func TestCreateBookUsecaseErrorOnFindByTitle(t *testing.T) {
 
 func TestCreateBookUsecaseErrorOnCreate(t *testing.T) {
 
-	sut := NewCreateBookUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{Err: errors.New("")}, mocks.ReturnFindByTitle{}, mocks.ReturnFindByID{}, mocks.ReturnFindAll{}))
+	sut := NewCreateBookUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{Err: errors.New("")}, mocks.ReturnFindByTitle{}, mocks.ReturnFindByID{}, mocks.ReturnFindAll{}, mocks.ReturnDelete{}))
 
 	result := sut.Create(&entities.BookDTO{
 		Title:             "title",

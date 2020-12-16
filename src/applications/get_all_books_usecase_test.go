@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetAllBooksUsecaseWhenSuccessfully(t *testing.T) {
-	sut := NewGetAllBooksUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{}, mocks.ReturnFindByTitle{}, mocks.ReturnFindByID{}, mocks.ReturnFindAll{}))
+	sut := NewGetAllBooksUsecase(mocks.NewInMemoryRepository(mocks.ReturnCreate{}, mocks.ReturnFindByTitle{}, mocks.ReturnFindByID{}, mocks.ReturnFindAll{}, mocks.ReturnDelete{}))
 
 	result := sut.GetAll()
 

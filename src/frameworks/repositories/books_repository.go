@@ -176,32 +176,32 @@ func (b *booksRepository) FindAll() ([]entities.BookEntity, error) {
 // 	return entity, nil
 // }
 
-// // Delete ...
-// func (b *booksRepository) Delete(id uint64) (*entities.BookEntity, error) {
-// 	sql := "DELETE FROM books WHERE id = ? RETURNING *"
+// Delete ...
+func (b *booksRepository) Delete(id uint64) (*entities.BookEntity, error) {
+	sql := "DELETE FROM books WHERE id = ? RETURNING *"
 
-// 	prepare, err := b.db.Prepare(sql)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	prepare, err := b.db.Prepare(sql)
+	if err != nil {
+		return nil, err
+	}
 
-// 	entity := &entities.BookEntity{}
-// 	err = prepare.QueryRow(id).Scan(
-// 		&entity.ID,
-// 		&entity.Title,
-// 		&entity.Author,
-// 		&entity.PublishingCompany,
-// 		&entity.Edition,
-// 		&entity.CreatedAt,
-// 		&entity.UpdatedAt,
-// 		&entity.DeletedAt,
-// 	)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	entity := &entities.BookEntity{}
+	err = prepare.QueryRow(id).Scan(
+		&entity.ID,
+		&entity.Title,
+		&entity.Author,
+		&entity.PublishingCompany,
+		&entity.Edition,
+		&entity.CreatedAt,
+		&entity.UpdatedAt,
+		&entity.DeletedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
 
-// 	return entity, nil
-// }
+	return entity, nil
+}
 
 // // Delete ...
 // func (b *booksRepository) SoftDelete(id uint64) (*entities.BookEntity, error) {

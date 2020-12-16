@@ -9,6 +9,7 @@ type inMemoryRepository struct {
 	returnCreate      ReturnCreate
 	returnFindByTitle ReturnFindByTitle
 	returnFindByID    ReturnFindByID
+	returnFindAll     ReturnFindAll
 }
 
 // ReturnCreate ...
@@ -29,6 +30,12 @@ type ReturnFindByID struct {
 	Err    error
 }
 
+// ReturnFindAll ...
+type ReturnFindAll struct {
+	Entity []entities.BookEntity
+	Err    error
+}
+
 func (repo *inMemoryRepository) Create(entity *entities.BookEntity) (*entities.BookEntity, error) {
 	return repo.returnCreate.Entity, repo.returnCreate.Err
 }
@@ -38,8 +45,11 @@ func (repo *inMemoryRepository) FindByTitle(title string) (*entities.BookEntity,
 func (repo *inMemoryRepository) FindByID(id uint64) (*entities.BookEntity, error) {
 	return repo.returnFindByID.Entity, repo.returnFindByID.Err
 }
+func (repo *inMemoryRepository) FindAll() ([]entities.BookEntity, error) {
+	return repo.returnFindAll.Entity, repo.returnFindAll.Err
+}
 
 // NewInMemoryRepository ...
-func NewInMemoryRepository(returnCreate ReturnCreate, returnFindByTitle ReturnFindByTitle, returnFindByID ReturnFindByID) protocols.IBooksRepository {
-	return &inMemoryRepository{returnCreate: returnCreate, returnFindByTitle: returnFindByTitle, returnFindByID: returnFindByID}
+func NewInMemoryRepository(returnCreate ReturnCreate, returnFindByTitle ReturnFindByTitle, returnFindByID ReturnFindByID, returnFindAll ReturnFindAll) protocols.IBooksRepository {
+	return &inMemoryRepository{returnCreate: returnCreate, returnFindByTitle: returnFindByTitle, returnFindByID: returnFindByID, returnFindAll: returnFindAll}
 }

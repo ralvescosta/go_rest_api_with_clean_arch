@@ -7,7 +7,7 @@ import (
 
 func TestHealthUsecase(t *testing.T) {
 	startupMocked := time.Now()
-	healthUsecase := HealthUsecase{StartupTime: startupMocked}
+	healthUsecase := NewHealthUsecase(startupMocked)
 
 	httpResponse := healthUsecase.Health()
 	body := httpResponse.Body.(map[string]interface{})

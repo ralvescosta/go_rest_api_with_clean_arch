@@ -19,7 +19,7 @@ func (c *CreateBookController) Handler(res http.ResponseWriter, req *http.Reques
 	body := &entities.BookDTO{}
 	err := json.NewDecoder(req.Body).Decode(body)
 
-	if err != nil {
+	if err != nil || body.Title == "" || body.Author == "" || body.Edition == 0 || body.PublishingCompany == "" {
 		response := shared.HTTPBadRequest("Wrong Format")
 		res.WriteHeader(response.StatusCode)
 		json.NewEncoder(res).Encode(response.Body)

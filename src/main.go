@@ -34,5 +34,9 @@ func main() {
 	getAllBooksController := controllers.GetAllBooksController{Usecase: getAllBooksUsecase}
 	httpServer.RegisterRouteHandler("/books", getAllBooksController.Handler, "GET")
 
+	getOneBookUsecase := applications.NewGetOneBookUsecase(booksRepository)
+	getOneBookController := controllers.GetOneBookController{Usecase: getOneBookUsecase}
+	httpServer.RegisterRouteHandler("/books/{id}", getOneBookController.Handler, "GET")
+
 	httpServer.StartHTTPServer()
 }

@@ -2,7 +2,8 @@ package interfaces
 
 import (
 	"net/http/httptest"
-	"restapi/src/applications"
+
+	application "restapi/src/applications/create_book"
 	"restapi/src/entities"
 	"restapi/src/shared"
 	"strings"
@@ -16,7 +17,7 @@ type createBookUsecaseMock struct {
 func (mock *createBookUsecaseMock) Create(bookDTO *entities.BookDTO) *shared.HTTPResponse {
 	return mock.createdReturn
 }
-func NewCreateBookUsecaseMock(createdReturn *shared.HTTPResponse) applications.ICreateBookUsecase {
+func NewCreateBookUsecaseMock(createdReturn *shared.HTTPResponse) application.ICreateBookUsecase {
 	return &createBookUsecaseMock{createdReturn: createdReturn}
 }
 

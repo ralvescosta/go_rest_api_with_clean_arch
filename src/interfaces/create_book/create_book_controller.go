@@ -4,14 +4,14 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"restapi/src/applications"
+	application "restapi/src/applications/create_book"
 	"restapi/src/entities"
 	"restapi/src/shared"
 )
 
 // CreateBookController ...
 type CreateBookController struct {
-	Usecase applications.ICreateBookUsecase
+	Usecase application.ICreateBookUsecase
 }
 
 // Handler ...

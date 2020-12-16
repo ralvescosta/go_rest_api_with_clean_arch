@@ -8,7 +8,7 @@ import (
 
 // HealthController ...
 type HealthController struct {
-	Usecase *applications.HealthUsecase
+	Usecase applications.IHealthUsecase
 }
 
 // Handler ...

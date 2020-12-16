@@ -21,7 +21,7 @@ func main() {
 		panic(err)
 	}
 
-	healthUsecase := &applications.HealthUsecase{StartupTime: startup}
+	healthUsecase := applications.NewHealthUsecase(startup)
 	healthController := controllers.HealthController{Usecase: healthUsecase}
 	httpServer.RegisterRouteHandler("/", healthController.Handler, "GET")
 
